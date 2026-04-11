@@ -1,0 +1,38 @@
+# CD: Build + Push on push to main
+
+when:
+  - branch: main
+    event: push
+
+steps:
+  - name: build-and-push
+    image: gcr.io/kaniko-project/executor:debug
+    commands:
+      - mkdir -p /kaniko/.docker
+      - |
+        echo "{\"auths\":{\"git.pmon.dev\":{\"username\":\"$REGISTRY_USER\",\"password\":\"$REGISTRY_TOKEN\"}}}" > /kaniko/.docker/config.json
+      - GIT_HASH=$(echo "$CI_COMMIT_SHA" | cut -c1-7)
+      - |
+        /kaniko/executor \
+          --context=. \
+          --dockerfile=Dockerfile \
+          --destination=git.pmon.dev/schnappy/hyperfoil:latest \
+          --destination=git.pmon.dev/schnappy/hyperfoil:$GIT_HASH \
+          --skip-tls-verify-registry=git.pmon.dev \
+          --registry-mirror=nexus.pmon.dev:8082 \
+          --insecure-registry=nexus.pmon.dev:8082 \
+          --cache=false
+    backend_options:
+      kubernetes:
+        resources:
+          requests: { cpu: 250m, memory: 512Mi }
+          limits: { cpu: 2000m, memory: 2Gi }
+        secrets:
+          - name: woodpecker-ci-secrets
+            key: registry_user
+            target:
+              env: REGISTRY_USER
+          - name: woodpecker-ci-secrets
+            key: registry_token
+            target:
+              env: REGISTRY_TOKEN
