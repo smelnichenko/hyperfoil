@@ -1,12 +1,12 @@
 # Hyperfoil
 
-Custom Hyperfoil load-tester image. Adds the MinIO `mc` client to the upstream image so runs can upload reports to the cluster MinIO bucket.
+Custom Hyperfoil load-tester image. Adds `rclone` to the upstream image so runs can upload reports to the cluster's S3 gateway (versitygw) bucket. (It was MinIO's `mc` until 2026-09-24, when MinIO withdrew its downloads.)
 
 ## Image
 
 `git.pmon.dev/schnappy/hyperfoil:latest`
 
-Base: `quay.io/hyperfoil/hyperfoil:0.28.0` + `mc` from `dl.min.io`.
+Base: `quay.io/hyperfoil/hyperfoil:0.28.0` + the `rclone` RPM from its GitHub release, pinned by version and SHA-256.
 
 ## Build
 
