@@ -1,10 +1,10 @@
 # Hyperfoil
 
-Custom Hyperfoil load-tester image with the MinIO `mc` client preinstalled, used to upload run reports to the cluster MinIO bucket.
+Custom Hyperfoil load-tester image with `rclone` preinstalled, used to upload run reports to the cluster's S3 gateway bucket.
 
 ## Base image
 
-`quay.io/hyperfoil/hyperfoil:0.28.0` + MinIO `mc`.
+`quay.io/hyperfoil/hyperfoil:0.28.0` + `rclone` (GitHub release RPM, pinned by SHA-256).
 
 ## Usage
 
