@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "local>schnappy/ops//renovate/apps"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "rclone, installed from its release RPM at ARG RCLONE_VERSION - tracked as the rclone/rclone image, the version infra and platform run",
+      "managerFilePatterns": [
+        "/(^|/)Dockerfile$/"
+      ],
+      "matchStrings": [
+        "ARG RCLONE_VERSION=(?<currentValue>\\S+)"
+      ],
+      "depNameTemplate": "rclone/rclone",
+      "datasourceTemplate": "docker"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "No pull-request CI here, and RCLONE_SHA256 must move with RCLONE_VERSION (the build fails closed on a stale sum - put right in the pull request by hand): never merged by Renovate",
+      "matchPackageNames": [
+        "*"
+      ],
+      "automerge": false
+    }
+  ]
+}
