@@ -1,4 +1,4 @@
-FROM quay.io/hyperfoil/hyperfoil:0.28.0
+FROM quay.io/hyperfoil/hyperfoil:0.30.0
 # rclone uploads the run's report to the cluster's S3 gateway (versitygw). It replaced MinIO's mc on 2026-09-24:
 # MinIO withdrew mc's download (dl.min.io 410) and its images. Pinned by version and checksum.
 ARG RCLONE_VERSION=1.75.1
